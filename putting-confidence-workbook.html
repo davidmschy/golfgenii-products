@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Putting Confidence Workbook - Mike Schy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #0a1628;
+    --dark: #111b2e;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --green: #1a3a2a;
+    --white: #ffffff;
+    --offwhite: #f8f6f0;
+    --gray: #8a8a9a;
+    --light-gray: #e8e8f0;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--offwhite);
+    color: var(--navy);
+  }
+
+  /* PAGE BREAKS FOR PDF */
+  .page {
+    width: 8.5in;
+    min-height: 11in;
+    margin: 0 auto 40px;
+    background: white;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  @media print {
+    body { background: white; }
+    .page { margin: 0; box-shadow: none; page-break-after: always; }
+  }
+
+  /* COVER PAGE */
+  .cover {
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 11in;
+    padding: 80px 60px;
+    text-align: center;
+    position: relative;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at center top, rgba(201,168,76,0.15) 0%, transparent 60%);
+  }
+
+  .cover-badge {
+    border: 2px solid var(--gold);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 8px 24px;
+    margin-bottom: 48px;
+    position: relative;
+  }
+
+  .cover-icon {
+    font-size: 64px;
+    margin-bottom: 32px;
+    position: relative;
+  }
+
+  .cover h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .cover h1 span {
+    color: var(--gold);
+  }
+
+  .cover .subtitle {
+    font-size: 18px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 48px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    position: relative;
+  }
+
+  .cover-divider {
+    width: 80px;
+    height: 3px;
+    background: var(--gold);
+    margin: 0 auto 48px;
+    position: relative;
+  }
+
+  .cover-author {
+    position: relative;
+  }
+
+  .cover-author .by {
+    color: var(--gray);
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .cover-author .name {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  .cover-author .title {
+    color: rgba(255,255,255,0.5);
+    font-size: 13px;
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+
+  .cover-bottom {
+    position: absolute;
+    bottom: 40px;
+    left: 0; right: 0;
+    text-align: center;
+    color: rgba(255,255,255,0.3);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* INTRO PAGE */
+  .intro-page {
+    padding: 70px 80px;
+    min-height: 11in;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--navy);
+    padding-bottom: 16px;
+    margin-bottom: 48px;
+  }
+
+  .page-header .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .page-header .logo span {
+    color: var(--gold);
+  }
+
+  .page-header .page-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 24px;
+    line-height: 1.2;
+  }
+
+  .section-title .gold {
+    color: var(--gold);
+  }
+
+  .lead-text {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #333;
+    margin-bottom: 24px;
+  }
+
+  /* HOW TO USE */
+  .how-to-box {
+    background: var(--navy);
+    color: white;
+    padding: 32px 40px;
+    margin: 32px 0;
+    border-left: 5px solid var(--gold);
+  }
+
+  .how-to-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--gold);
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+  }
+
+  .how-to-box ol {
+    padding-left: 20px;
+  }
+
+  .how-to-box ol li {
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 8px;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .commitment-box {
+    border: 2px solid var(--gold);
+    padding: 32px 40px;
+    margin-top: 32px;
+  }
+
+  .commitment-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--navy);
+    margin-bottom: 20px;
+  }
+
+  .signature-line {
+    display: flex;
+    align-items: flex-end;
+    gap: 40px;
+    margin-top: 24px;
+  }
+
+  .sig-field {
+    flex: 1;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 4px;
+  }
+
+  .sig-label {
+    font-size: 10px;
+    color: var(--gray);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  /* SEGMENT PAGES */
+  .segment-page {
+    padding: 50px 70px;
+    min-height: 11in;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .segment-header {
+    background: var(--navy);
+    margin: -50px -70px 40px;
+    padding: 40px 70px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .segment-header::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 6px;
+    background: var(--gold);
+  }
+
+  .segment-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    font-weight: 900;
+    color: rgba(201,168,76,0.25);
+    line-height: 1;
+    min-width: 80px;
+  }
+
+  .segment-header-text .segment-label {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .segment-header-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.2;
+  }
+
+  .key-insight {
+    background: #f0f4ff;
+    border-left: 4px solid var(--gold);
+    padding: 16px 24px;
+    margin-bottom: 28px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #333;
+    font-style: italic;
+  }
+
+  .key-insight strong {
+    color: var(--navy);
+    font-style: normal;
+  }
+
+  /* EXERCISE SECTIONS */
+  .exercise-section {
+    margin-bottom: 28px;
+  }
+
+  .exercise-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border-bottom: 1px solid var(--gold);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+  }
+
+  .reflection-prompt {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .write-lines {
+    margin-bottom: 16px;
+  }
+
+  .write-line {
+    border-bottom: 1px solid #ddd;
+    height: 28px;
+    margin-bottom: 2px;
+  }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    padding: 0;
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    color: #333;
+  }
+
+  .checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--navy);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* PRACTICE DRILL */
+  .drill-box {
+    background: var(--navy);
+    color: white;
+    padding: 24px 32px;
+    margin: 20px 0;
+    position: relative;
+  }
+
+  .drill-box::before {
+    content: 'PRACTICE DRILL';
+    position: absolute;
+    top: -10px;
+    left: 24px;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 3px 12px;
+  }
+
+  .drill-box p {
+    font-size: 13px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.85);
+  }
+
+  /* SCORE TRACKER */
+  .score-tracker {
+    border: 1px solid var(--light-gray);
+    padding: 20px 24px;
+    margin-top: 20px;
+  }
+
+  .score-title {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 16px;
+  }
+
+  .score-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+
+  .score-cell {
+    text-align: center;
+  }
+
+  .score-box {
+    border: 1px solid var(--light-gray);
+    height: 40px;
+    margin-bottom: 6px;
+  }
+
+  .score-cell-label {
+    font-size: 10px;
+    color: var(--gray);
+  }
+
+  /* FOOTER */
+  .page-footer {
+    margin-top: auto;
+    padding-top: 24px;
+    border-top: 1px solid var(--light-gray);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--gray);
+    letter-spacing: 1px;
+  }
+
+  /* PROGRESS TRACKER PAGE */
+  .progress-page {
+    padding: 60px 70px;
+    min-height: 11in;
+  }
+
+  .progress-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .progress-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 80px 80px;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--light-gray);
+  }
+
+  .progress-row:first-child {
+    border-top: 2px solid var(--navy);
+  }
+
+  .progress-seg-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  .confidence-bar {
+    background: var(--light-gray);
+    height: 20px;
+    position: relative;
+  }
+
+  .confidence-bar-label {
+    position: absolute;
+    right: -30px;
+    top: 2px;
+    font-size: 10px;
+    color: var(--gray);
+  }
+
+  .progress-date {
+    border-bottom: 1px solid #ccc;
+    height: 28px;
+  }
+
+  .progress-label {
+    font-size: 10px;
+    color: var(--gray);
+    text-align: center;
+    letter-spacing: 1px;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="page">
+  <div class="cover">
+    <div class="cover-badge">Interactive Training Workbook</div>
+    <div class="cover-icon">⛳</div>
+    <h1>Putting<br><span>Confidence</span></h1>
+    <div class="cover-divider"></div>
+    <p class="subtitle">Your Personal Practice Guide & Progress Tracker</p>
+    <div class="cover-author">
+      <div class="by">by</div>
+      <div class="name">Mike Schy</div>
+      <div class="title">PGA Teaching Professional · Golf Performance Coach</div>
+    </div>
+    <div class="cover-bottom">Golf Genii · golfgenii.com</div>
+  </div>
+</div>
+
+<!-- HOW TO USE THIS WORKBOOK -->
+<div class="page">
+  <div class="intro-page">
+    <div class="page-header">
+      <div class="logo">Golf<span>Genii</span></div>
+      <div class="page-label">How To Use This Workbook</div>
+    </div>
+
+    <div class="section-title">Your <span class="gold">Roadmap</span> to Confident Putting</div>
+
+    <p class="lead-text">This workbook is designed to be used alongside the <em>Putting Confidence</em> guide. Each segment builds on the last — don't skip ahead. The exercises here will help you internalize Mike's system through reflection, deliberate practice, and honest self-assessment.</p>
+
+    <p class="lead-text">Most golfers read instruction, nod along, and then go right back to their old habits on the course. This workbook exists to break that cycle. Writing your answers, tracking your sessions, and checking off skills creates a real record of your growth.</p>
+
+    <div class="how-to-box">
+      <h3>How to Get the Most From This</h3>
+      <ol>
+        <li><strong>Read one segment</strong> from the Putting Confidence guide.</li>
+        <li><strong>Come back to this workbook</strong> and complete that segment's pages before moving on.</li>
+        <li><strong>Take the drill to the practice green</strong> — log your results in the score tracker.</li>
+        <li><strong>Repeat each segment</strong> until you genuinely feel confident before advancing.</li>
+        <li><strong>Use the Master Progress Tracker</strong> (last page) to see your full journey at a glance.</li>
+      </ol>
+    </div>
+
+    <div class="commitment-box">
+      <h3>Your Commitment</h3>
+      <p style="font-size:14px; color:#555; line-height:1.7; margin-bottom:20px;">Putting confidence isn't built in one session. Commit to working through this systematically. Sign below to make it official.</p>
+      <div class="signature-line">
+        <div class="sig-field" style="flex:2;">
+          <div style="height:36px;"></div>
+          <div class="sig-label">Your Signature</div>
+        </div>
+        <div class="sig-field" style="flex:1;">
+          <div style="height:36px;"></div>
+          <div class="sig-label">Date</div>
+        </div>
+      </div>
+      <div style="margin-top:20px; font-size:13px; color:#777; font-style:italic;">"I commit to working through each segment deliberately, tracking my progress honestly, and trusting the process."</div>
+    </div>
+
+    <div class="page-footer">
+      <span>PUTTING CONFIDENCE WORKBOOK</span>
+      <span>GOLF GENII</span>
+    </div>
+  </div>
+</div>
+
+<!-- SEGMENT 1: THE FULL ROUTINE -->
+<div class="page">
+  <div class="segment-page">
+    <div class="segment-header">
+      <div class="segment-num">01</div>
+      <div class="segment-header-text">
+        <div class="segment-label">Segment One</div>
+        <h2>The Full Pre-Putt Routine</h2>
+      </div>
+    </div>
+
+    <div class="key-insight">
+      <strong>Core Insight:</strong> A consistent pre-putt routine eliminates decision-making under pressure. When your body knows exactly what to do before every putt, your mind is free to trust the stroke.
+    </div>
+
+    <div class="exercise-section">
+      <div class="exercise-title">Reflection</div>
+      <div class="reflection-prompt">Describe your current pre-putt routine. What do you do right now before every putt?</div>
+      <div class="write-lines">
+        <div class="write-line"></div><div class="write-line"></div><div class="write-line"></div><div class="write-line"></div>
+      </div>
+      <div class="reflection-prompt">What's inconsistent or missing? What do you skip when you're nervous?</div>
+      <div class="write-lines">
+        <div class="write-line"></div><div class="write-line"></div><div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="exercise-section">
+      <div class="exercise-title">My Routine — Step by Step</div>
+      <p style="font-size:13px;color:#555;margin-bottom:14px;">Write out your new full routine using Mike's framework. Be specific — exact steps, exact words you'll say to yourself.</p>
+      <div class="checklist">
+        <li><div class="checkbox"></div><span>Step 1 (Behind the ball): ___________________________________________</span></li>
+        <li><div class="checkbox"></div><span>Step 2 (Read the line): ____________________________________________</span></li>
+        <li><div class="checkbox"></div><span>Step 3 (Practice strokes): _________________________________________</span></li>
+        <li><div class="checkbox"></div><span>Step 4 (Address & setup): __________________________________________</span></li>
+        <li><div class="checkbox"></div><span>Step 5 (Trigger & go): _____________________________________________</span></li>
+      </div>
+    </div>
+
+    <div class="drill-box">
+      <p><strong>Today's Drill:</strong> On the practice green, putt 20 balls from 6 feet. Before each putt, execute your written routine exactly as you defined it above. Focus only on the routine — not the result. Log how many times you completed the full routine without shortcuts.</p>
+    </div>
+
+    <div class="score-tracker">
+      <div class="score-title">Session Log</div>
+      <div class="score-grid">
+        <div class="score-cell"><div class="score-box"></div><div class="score-cell-label">Session 1<br>Putts Made</div></div>
+        <div class="score-cell"><div class="score-box"></div><div class="score-cell-label">Session 2<br>Putts Made</div></div>
+        <div class="score-cell"><div class="score-box"></div><div class="score-cell-label">Session 3<br>Putts Made</div></div>
+        <div class="score-cell"><div class="score-box"></div><div class="score-cell-label">Session 4<br>Putts Made</div></div>
+        <div class="score-cell"><div class="score-box"></div><div class="score-cell-label">Confidence<br>Level 1–10</div></div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span>SEGMENT 1 · THE FULL ROUTINE</span>
+      <span>PUTTING CONFIDENCE WORKBOOK</span>
+    </div>
+  </div>
+</div>
+
+<!-- SEGMENT 2: READING GREENS -->
+<div class="page">
+  <div class="segment-page">
+    <div class="segment-header">
+      <div class="segment-num">02</div>
+      <div class="segment-header-text">
+        <div class="segment-label">Segment Two</div>
+        <h2>Reading Greens with Confidence</h2>
+      </div>
+    </div>
+
+    <div class="key-insight">
+      <strong>Core Insight:</strong> Most amateur golfers misread greens because they look for slope without a system. Reading greens is a skill that improves dramatically with the right framework and deliberate repetition.
+    </div>
+
+    <div class="exercise-section">
+      <div class="exercise-title">Reflection</div>
+      <div class="reflection-prompt">Where do you typically misread putts — short, medium, or long? Left-to-right or right-to-left?</div>
+      <div class="write-lines">
+        <div class="write-line"></div><div class="write-line"></div><div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="exercise-section">
+      <div class="exercise-title">My Green Reading Checklist</div>
+      <ul class="checklist">
+        <li><div class="checkbox"></div><span>Read overall slope walking to the green</span></li>
+        <li><div class="checkbox"></div><span>Crouch low behind the ball to see the fall line</span></li>
+        <li><div class="checkbox"></div><span>Check from the low side for true break</span></li>
+        <li><div class="checkbox"></div><span>Identify the high point of the break (apex)</span></li>
+        <li><div class="checkbox"></div><span>Pick a specific spot to aim at (not just a direction)</span></li>
+        <li><div class="checkbox"></div><span>Commit to the read — no second-guessing at address</span></li>
+      </ul>
+    </div>
+
+    <div class="exercise-section">
+      <div class="exercise-title">Practice Log — Breaking Putts</div>
+      <div class="reflection-prompt">Pick a 10-foot breaking putt. Attempt 10 balls. Record your results and observations.</div>
+      <div class="write-lines">
+        <div class="write-line"></div><div class="write-line"></div><div class="write-line"></div>
+        <div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="drill-box">
+      <p><strong>Today's Drill:</strong> Find a putt with at least 2 feet of break at 15 feet. Read it fully using your checklist above. Hit 15 putts, tracking how many times your read was correct (ball started on the right line) vs. how many times you misread it. Separate "bad read" from "bad stroke."</p>
+    </div>
+
+    <div class="score-tracker">
+      <div class="score-title">Session Log</div>
+      <div class="score-grid">
+        <div class="score-cell"><div class="score-box"></div><div class="score-cell-label">Session 1<br>Correct Reads</div></div>
+        <div class="score-cell"><div class="score-box"></div><div class="score-cell-label">Session 2<br>Correct Reads</div></div>
+        <div class="score-cell"><div class="score-box"></div><div class="score-cell-label">Session 3<br>Correct Reads</div></div>
+        <div class="score-cell"><div class="score-box"></div><div class="score-cell-label">Session 4<br>Correct Reads</div></div>
+        <div class="score-cell"><div class="score-box"></div><div class="score-cell-label">Confidence<br>Level 1–10</div></div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span>SEGMENT 2 · READING GREENS</span>
+      <span>PUTTING CONFIDENCE WORKBOOK</span>
+    </div>
+  </div>
+</div>
+
+<!-- SEGMENT 3: DISTANCE CONTROL -->
+<div class="page">
+  <div class="segment-page">
+    <div class="segment-header">
+      <div class="segment-num">03</div>
+      <div class="segment-header-text">
+        <div class="segment-label">Segment Three</div>
+        <h2>Distance Control & Speed Mastery</h2>
+      </div>
+    </div>
+
+    <div class="key-insight">
+      <strong>Core Insight:</strong> Three-putts are almost always a distance problem, not a direction problem. When you control speed, you eliminate the dreaded lag-putt disaster and make your short putts automatic.
+    </div>
+
+    <div class="exercise-section">
+      <div class="exercise-title">Reflection</div>
+      <div class="reflection-prompt">Think about your last round. How many three-putts did you have? Were they caused by poor speed or poor direction?</div>
+      <div class="write-lines">
+        <div class="write-line"></div><div class="write-line"></div><div class="write-line"></div>
+      </div>
+      <div class="reflection-prompt">On long putts, do you tend to leave them short or blow them past?</div>
+      <div class="write-lines">
+        <div class="write-line"></div><div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="exercise-section">
+      <div class="exercise-title">Distance Control Framework</div>
+      <ul class="checklist">
+        <li><div class="checkbox"></div><span>I use backstroke length (not force) to control distance</span></li>
+        <li><div class="checkbox"></div><span>I practice lag putting from 30, 40, and 50 feet regularly</span></li>
+        <li><div class="checkbox"></div><span>I can consistently stop the ball within 3 feet from 30 feet</span></li>
+        <li><div class="checkbox"></div><span>I know how different green speeds affect my stroke length</span></li>
+        <li><div class="checkbox"></div><span>I never try to "muscle" a putt — I let the stroke do the work</span></li>
+      </ul>
+    </div>
+
+    <div class="drill-box">
+      <p><strong>Today's Drill — The Ladder Drill:</strong> Place balls at 10, 20, 30, 40, and 50 feet from the hole. Putt each one, trying to get within a 3-foot circle. Work back to 50 feet then back to 10. Goal: zero balls outside 3 feet per full ladder. Log how many rounds of the ladder you complete clean.</p>
+    </div>
+
+    <div class="score-tracker">
+      <div class="score-title">Ladder Drill Log</div>
+      <div class="score-grid">
+        <div class="score-cell"><div class="score-box"></div><div class="score-cell-label">Round 1<br>Outside 3ft</div></div>
+        <div class="score-cell"><div class="score-box"></div><div class="score-cell-label">Round 2<br>Outside 3ft</div></div>
+        <div class="score-cell"><div class="score-box"></div><div class="score-cell-label">Round 3<br>Outside 3ft</div></div>
+        <div class="score-cell"><div class="score-box"></div><div class="score-cell-label">Round 4<br>Outside 3ft</div></div>
+        <div class="score-cell"><div class="score-box"></div><div class="score-cell-label">Confidence<br>Level 1–10</div></div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span>SEGMENT 3 · DISTANCE CONTROL</span>
+      <span>PUTTING CONFIDENCE WORKBOOK</span>
+    </div>
+  </div>
+</div>
+
+<!-- SEGMENTS 4-7 COMBINED PAGE -->
+<div class="page">
+  <div class="segment-page">
+    <div class="segment-header">
+      <div class="segment-num">4–7</div>
+      <div class="segment-header-text">
+        <div class="segment-label">Segments Four through Seven</div>
+        <h2>Setup, Stroke, Short Game & The Mental Game</h2>
+      </div>
+    </div>
+
+    <!-- SEGMENT 4 -->
+    <div class="exercise-section" style="margin-bottom:24px;">
+      <div class="exercise-title">Segment 4 · Setup & Alignment</div>
+      <div class="reflection-prompt">What setup fundamentals do you struggle with most? (Grip, posture, ball position, eye position)</div>
+      <div class="write-lines">
+        <div class="write-line"></div><div class="write-line"></div>
+      </div>
+      <ul class="checklist">
+        <li><div class="checkbox"></div><span>Eyes directly over the ball at address</span></li>
+        <li><div class="checkbox"></div><span>Grip pressure light and consistent — no tension</span></li>
+        <li><div class="checkbox"></div><span>Ball positioned forward in my stance (inside left heel)</span></li>
+        <li><div class="checkbox"></div><span>Putter face square to target line — verified with alignment aid</span></li>
+        <li><div class="checkbox"></div><span>Shoulders, hips, and feet parallel to target line</span></li>
+      </ul>
+    </div>
+
+    <!-- SEGMENT 5 -->
+    <div class="exercise-section" style="margin-bottom:24px;">
+      <div class="exercise-title">Segment 5 · The Putting Stroke</div>
+      <div class="reflection-prompt">Does your stroke feel mechanical or natural? What breaks down under pressure?</div>
+      <div class="write-lines">
+        <div class="write-line"></div><div class="write-line"></div>
+      </div>
+      <ul class="checklist">
+        <li><div class="checkbox"></div><span>Stroke is driven by shoulders — not hands or wrists</span></li>
+        <li><div class="checkbox"></div><span>Backstroke and follow-through are equal in length</span></li>
+        <li><div class="checkbox"></div><span>Putter stays low through impact — no scooping</span></li>
+        <li><div class="checkbox"></div><span>Head stays still through the entire stroke</span></li>
+      </ul>
+    </div>
+
+    <!-- SEGMENT 6 -->
+    <div class="exercise-section" style="margin-bottom:24px;">
+      <div class="exercise-title">Segment 6 · Pressure Putting (Short Putts)</div>
+      <div class="reflection-prompt">At what distance do short putts start to feel pressured for you? What happens in your body?</div>
+      <div class="write-lines">
+        <div class="write-line"></div><div class="write-line"></div>
+      </div>
+      <div class="drill-box" style="margin-top:12px;">
+        <p><strong>Drill:</strong> 3-foot circle drill — set 8 tees in a circle 3 feet from the hole. Must make all 8 consecutively to finish. Record how many attempts to complete.</p>
+      </div>
+    </div>
+
+    <!-- SEGMENT 7 -->
+    <div class="exercise-section">
+      <div class="exercise-title">Segment 7 · Mental Game & Visualization</div>
+      <div class="reflection-prompt">Write your pre-putt visualization script — exactly what you "see" and "feel" before each putt:</div>
+      <div class="write-lines">
+        <div class="write-line"></div><div class="write-line"></div><div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span>SEGMENTS 4–7</span>
+      <span>PUTTING CONFIDENCE WORKBOOK</span>
+    </div>
+  </div>
+</div>
+
+<!-- SEGMENTS 8-10 -->
+<div class="page">
+  <div class="segment-page">
+    <div class="segment-header">
+      <div class="segment-num">8–10</div>
+      <div class="segment-header-text">
+        <div class="segment-label">Segments Eight through Ten</div>
+        <h2>Course Management, Practice & Full Integration</h2>
+      </div>
+    </div>
+
+    <!-- SEGMENT 8 -->
+    <div class="exercise-section" style="margin-bottom:28px;">
+      <div class="exercise-title">Segment 8 · On-Course Strategy</div>
+      <div class="reflection-prompt">What on-course situations trigger your putting anxiety most? (First-hole jitters, must-make putts, watching partners hole out first)</div>
+      <div class="write-lines">
+        <div class="write-line"></div><div class="write-line"></div><div class="write-line"></div>
+      </div>
+      <ul class="checklist">
+        <li><div class="checkbox"></div><span>I always putt to a target, not "toward the hole"</span></li>
+        <li><div class="checkbox"></div><span>I manage pace of play without rushing my routine</span></li>
+        <li><div class="checkbox"></div><span>I reset mentally after a missed putt before the next hole</span></li>
+        <li><div class="checkbox"></div><span>I know my default miss (left or right) and adjust accordingly</span></li>
+      </ul>
+    </div>
+
+    <!-- SEGMENT 9 -->
+    <div class="exercise-section" style="margin-bottom:28px;">
+      <div class="exercise-title">Segment 9 · Building a Practice Plan</div>
+      <div class="reflection-prompt">How many times per week can you realistically practice putting? When and where?</div>
+      <div class="write-lines">
+        <div class="write-line"></div><div class="write-line"></div>
+      </div>
+      <div class="reflection-prompt">Write your 4-week practice schedule below:</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px;">
+        <div style="border:1px solid #ddd;padding:14px;">
+          <div style="font-size:11px;letter-spacing:2px;color:var(--gray);margin-bottom:12px;">WEEK 1 FOCUS</div>
+          <div class="write-line"></div><div class="write-line"></div><div class="write-line"></div>
+        </div>
+        <div style="border:1px solid #ddd;padding:14px;">
+          <div style="font-size:11px;letter-spacing:2px;color:var(--gray);margin-bottom:12px;">WEEK 2 FOCUS</div>
+          <div class="write-line"></div><div class="write-line"></div><div class="write-line"></div>
+        </div>
+        <div style="border:1px solid #ddd;padding:14px;">
+          <div style="font-size:11px;letter-spacing:2px;color:var(--gray);margin-bottom:12px;">WEEK 3 FOCUS</div>
+          <div class="write-line"></div><div class="write-line"></div><div class="write-line"></div>
+        </div>
+        <div style="border:1px solid #ddd;padding:14px;">
+          <div style="font-size:11px;letter-spacing:2px;color:var(--gray);margin-bottom:12px;">WEEK 4 FOCUS</div>
+          <div class="write-line"></div><div class="write-line"></div><div class="write-line"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEGMENT 10 -->
+    <div class="exercise-section">
+      <div class="exercise-title">Segment 10 · Full Integration — My Putting Identity</div>
+      <div class="reflection-prompt">Complete this statement: "I am a confident putter because..."</div>
+      <div class="write-lines">
+        <div class="write-line"></div><div class="write-line"></div><div class="write-line"></div><div class="write-line"></div>
+      </div>
+      <div class="reflection-prompt">My three non-negotiable putting commitments going forward:</div>
+      <div class="write-lines">
+        <div class="write-line"></div><div class="write-line"></div><div class="write-line"></div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span>SEGMENTS 8–10</span>
+      <span>PUTTING CONFIDENCE WORKBOOK</span>
+    </div>
+  </div>
+</div>
+
+<!-- MASTER PROGRESS TRACKER -->
+<div class="page">
+  <div class="progress-page">
+    <div class="page-header">
+      <div class="logo">Golf<span>Genii</span></div>
+      <div class="page-label">Master Progress Tracker</div>
+    </div>
+
+    <div class="section-title">Your <span class="gold">10-Segment</span> Journey</div>
+    <p style="font-size:14px;color:#555;line-height:1.7;margin-bottom:8px;">Rate your confidence in each segment from 1–10. Track your start and completion date. Only advance when you're at 7 or above.</p>
+
+    <div style="display:grid;grid-template-columns:28px 1fr 90px 90px 100px;gap:0;margin-top:32px;">
+      <div style="background:var(--navy);color:white;font-size:10px;letter-spacing:2px;padding:10px 6px;text-align:center;">#</div>
+      <div style="background:var(--navy);color:white;font-size:10px;letter-spacing:2px;padding:10px 16px;">SEGMENT</div>
+      <div style="background:var(--navy);color:white;font-size:10px;letter-spacing:2px;padding:10px 8px;text-align:center;">START</div>
+      <div style="background:var(--navy);color:white;font-size:10px;letter-spacing:2px;padding:10px 8px;text-align:center;">COMPLETE</div>
+      <div style="background:var(--gold);color:var(--navy);font-size:10px;letter-spacing:2px;padding:10px 8px;text-align:center;font-weight:700;">CONFIDENCE</div>
+
+      <!-- Row template x10 -->
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 6px;text-align:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--navy);">1</div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px;font-size:13px;font-weight:500;color:var(--navy);">The Full Pre-Putt Routine</div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 8px;text-align:center;font-size:11px;color:var(--gray);">__ / 10</div>
+
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px 6px;text-align:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--navy);">2</div>
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px;font-size:13px;font-weight:500;">Reading Greens with Confidence</div>
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px 8px;text-align:center;font-size:11px;color:var(--gray);">__ / 10</div>
+
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 6px;text-align:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--navy);">3</div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px;font-size:13px;font-weight:500;">Distance Control & Speed Mastery</div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 8px;text-align:center;font-size:11px;color:var(--gray);">__ / 10</div>
+
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px 6px;text-align:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--navy);">4</div>
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px;font-size:13px;font-weight:500;">Setup & Alignment Fundamentals</div>
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px 8px;text-align:center;font-size:11px;color:var(--gray);">__ / 10</div>
+
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 6px;text-align:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--navy);">5</div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px;font-size:13px;font-weight:500;">The Putting Stroke Mechanics</div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 8px;text-align:center;font-size:11px;color:var(--gray);">__ / 10</div>
+
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px 6px;text-align:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--navy);">6</div>
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px;font-size:13px;font-weight:500;">Pressure Putting & Short Game</div>
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px 8px;text-align:center;font-size:11px;color:var(--gray);">__ / 10</div>
+
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 6px;text-align:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--navy);">7</div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px;font-size:13px;font-weight:500;">Mental Game & Visualization</div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 8px;text-align:center;font-size:11px;color:var(--gray);">__ / 10</div>
+
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px 6px;text-align:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--navy);">8</div>
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px;font-size:13px;font-weight:500;">On-Course Strategy & Management</div>
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="border-bottom:1px solid #e0e0e8;padding:16px 8px;text-align:center;font-size:11px;color:var(--gray);">__ / 10</div>
+
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 6px;text-align:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--navy);">9</div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px;font-size:13px;font-weight:500;">Building a Deliberate Practice Plan</div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="background:#f8f6f0;border-bottom:1px solid #e0e0e8;padding:16px 8px;text-align:center;font-size:11px;color:var(--gray);">__ / 10</div>
+
+      <div style="border-bottom:2px solid var(--navy);padding:16px 6px;text-align:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--navy);">10</div>
+      <div style="border-bottom:2px solid var(--navy);padding:16px;font-size:13px;font-weight:500;">Full Integration — Your Putting Identity</div>
+      <div style="border-bottom:2px solid var(--navy);padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="border-bottom:2px solid var(--navy);padding:16px 8px;border-right:1px solid #e0e0e8;"></div>
+      <div style="border-bottom:2px solid var(--navy);padding:16px 8px;text-align:center;font-size:11px;color:var(--gray);">__ / 10</div>
+    </div>
+
+    <div style="background:var(--navy);padding:28px 32px;margin-top:32px;display:flex;align-items:center;gap:24px;">
+      <div style="font-size:48px;">⛳</div>
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:20px;color:var(--gold);margin-bottom:6px;">Congratulations on completing the program.</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;">You now have a systematic, repeatable approach to putting that most golfers never develop. Keep this workbook in your bag as a reference — and revisit any segment whenever you feel a skill slipping.</div>
+      </div>
+    </div>
+
+    <div class="page-footer" style="margin-top:24px;">
+      <span>MASTER PROGRESS TRACKER</span>
+      <span>GOLF GENII · golfgenii.com</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
