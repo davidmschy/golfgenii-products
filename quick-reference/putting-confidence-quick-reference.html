@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Putting Confidence - Quick Reference Card</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #0a1628;
+    --dark: #111b2e;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --green: #1a3a2a;
+    --white: #ffffff;
+    --offwhite: #f8f6f0;
+    --gray: #8a8a9a;
+    --light-gray: #e8e8f0;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #ddd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    gap: 40px;
+  }
+
+  .card {
+    width: 8.5in;
+    height: 5.5in;
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+  }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .card { margin: 0; }
+    .page-break { page-break-before: always; }
+  }
+
+  /* CARD FRONT */
+  .card-left {
+    background: var(--navy);
+    width: 2.2in;
+    flex-shrink: 0;
+    padding: 36px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    border-right: 1px solid rgba(201,168,76,0.3);
+  }
+
+  .card-left::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--gold);
+  }
+
+  .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+  }
+
+  .brand span { color: var(--gold); }
+
+  .card-title-block {
+    text-align: left;
+  }
+
+  .card-badge {
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: white;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+
+  .card-title .gold { color: var(--gold); }
+
+  .card-subtitle {
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+    line-height: 1.5;
+  }
+
+  .card-author {
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 1px;
+  }
+
+  .card-author strong {
+    display: block;
+    color: var(--gold);
+    font-size: 12px;
+    margin-bottom: 2px;
+    letter-spacing: 0;
+  }
+
+  /* CARD RIGHT - CHECKLIST */
+  .card-right {
+    flex: 1;
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .card-right-header {
+    font-size: 8px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    padding-bottom: 10px;
+    margin-bottom: 16px;
+  }
+
+  .segments-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 28px;
+    flex: 1;
+  }
+
+  .seg-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .seg-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: rgba(201,168,76,0.4);
+    min-width: 22px;
+    line-height: 1;
+    margin-top: 1px;
+  }
+
+  .seg-content {}
+
+  .seg-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 2px;
+    line-height: 1.2;
+  }
+
+  .seg-keys {
+    font-size: 9px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.5;
+  }
+
+  /* CARD BOTTOM BAR */
+  .card-bottom {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(201,168,76,0.1);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    padding: 8px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 8px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ===========================
+     CARD BACK
+  =========================== */
+  .card-back {
+    width: 8.5in;
+    height: 5.5in;
+    background: var(--offwhite);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .back-header {
+    background: var(--navy);
+    padding: 16px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .back-header .label {
+    font-size: 8px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .back-header .brand-sm {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: white;
+    font-weight: 700;
+  }
+
+  .back-header .brand-sm span { color: var(--gold); }
+
+  .back-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    padding: 0;
+  }
+
+  .back-col {
+    padding: 20px 24px;
+    border-right: 1px solid var(--light-gray);
+  }
+
+  .back-col:last-child { border-right: none; }
+
+  .back-col-title {
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border-bottom: 2px solid var(--navy);
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+
+  .back-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 9px;
+  }
+
+  .back-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+
+  .back-text {
+    font-size: 10px;
+    line-height: 1.55;
+    color: var(--navy);
+    font-weight: 400;
+  }
+
+  .back-text strong {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 1px;
+  }
+
+  /* MANTRA BOX */
+  .mantra-box {
+    background: var(--navy);
+    padding: 14px 36px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .mantra-label {
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  .mantra-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-style: italic;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .mantra-divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(201,168,76,0.4);
+  }
+
+</style>
+</head>
+<body>
+
+<!-- CARD FRONT -->
+<div class="card">
+  <div class="card-left">
+    <div class="brand">Golf<span>Genii</span></div>
+
+    <div class="card-title-block">
+      <div class="card-badge">Quick Reference Card</div>
+      <div class="card-title">Putting<br><span class="gold">Confidence</span></div>
+      <div class="card-subtitle">The 10-Segment System<br>for Every Round</div>
+    </div>
+
+    <div class="card-author">
+      <strong>Mike Schy</strong>
+      PGA Teaching Professional<br>Golf Performance Coach
+    </div>
+  </div>
+
+  <div class="card-right">
+    <div class="card-right-header">The 10-Segment System — Keep This In Your Bag</div>
+
+    <div class="segments-grid">
+      <div class="seg-item">
+        <div class="seg-num">1</div>
+        <div class="seg-content">
+          <div class="seg-name">Full Pre-Putt Routine</div>
+          <div class="seg-keys">Same routine, every putt. No exceptions.</div>
+        </div>
+      </div>
+      <div class="seg-item">
+        <div class="seg-num">2</div>
+        <div class="seg-content">
+          <div class="seg-name">Reading Greens</div>
+          <div class="seg-keys">Low side, high side, apex. Commit.</div>
+        </div>
+      </div>
+      <div class="seg-item">
+        <div class="seg-num">3</div>
+        <div class="seg-content">
+          <div class="seg-name">Distance Control</div>
+          <div class="seg-keys">Backstroke length controls speed. Always.</div>
+        </div>
+      </div>
+      <div class="seg-item">
+        <div class="seg-num">4</div>
+        <div class="seg-content">
+          <div class="seg-name">Setup & Alignment</div>
+          <div class="seg-keys">Eyes over ball. Shoulders, hips, feet parallel.</div>
+        </div>
+      </div>
+      <div class="seg-item">
+        <div class="seg-num">5</div>
+        <div class="seg-content">
+          <div class="seg-name">The Stroke</div>
+          <div class="seg-keys">Shoulder-driven. Equal back & through. Stay still.</div>
+        </div>
+      </div>
+      <div class="seg-item">
+        <div class="seg-num">6</div>
+        <div class="seg-content">
+          <div class="seg-name">Pressure Putting</div>
+          <div class="seg-keys">Routine first. Trust the line. Breathe.</div>
+        </div>
+      </div>
+      <div class="seg-item">
+        <div class="seg-num">7</div>
+        <div class="seg-content">
+          <div class="seg-name">Mental Game</div>
+          <div class="seg-keys">See the ball rolling in. Commit before you set.</div>
+        </div>
+      </div>
+      <div class="seg-item">
+        <div class="seg-num">8</div>
+        <div class="seg-content">
+          <div class="seg-name">Course Management</div>
+          <div class="seg-keys">Putt to a target. Reset after every miss.</div>
+        </div>
+      </div>
+      <div class="seg-item">
+        <div class="seg-num">9</div>
+        <div class="seg-content">
+          <div class="seg-name">Practice Plan</div>
+          <div class="seg-keys">Deliberate reps beat range time. Track it.</div>
+        </div>
+      </div>
+      <div class="seg-item">
+        <div class="seg-num">10</div>
+        <div class="seg-content">
+          <div class="seg-name">Full Integration</div>
+          <div class="seg-keys">You are a confident putter. Own it.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-bottom">
+    <span>golfgenii.com</span>
+    <span>Putting Confidence by Mike Schy</span>
+    <span>Golf Genii</span>
+  </div>
+</div>
+
+<!-- CARD BACK -->
+<div class="card-back page-break">
+  <div class="back-header">
+    <div class="label">Pre-Round Checklist & On-Course Keys</div>
+    <div class="brand-sm">Golf<span>Genii</span></div>
+  </div>
+
+  <div class="back-body">
+    <!-- COL 1: Pre-Round -->
+    <div class="back-col">
+      <div class="back-col-title">Before You Tee Off</div>
+      <div class="back-item">
+        <div class="back-dot"></div>
+        <div class="back-text"><strong>Green Speed Check</strong>Hit 5 lag putts from 30 feet. Feel the pace.</div>
+      </div>
+      <div class="back-item">
+        <div class="back-dot"></div>
+        <div class="back-text"><strong>Short Putt Warm-Up</strong>Make 10 consecutive 3-footers before playing.</div>
+      </div>
+      <div class="back-item">
+        <div class="back-dot"></div>
+        <div class="back-text"><strong>Routine Run-Through</strong>Walk through your full routine on 3 putts. No score.</div>
+      </div>
+      <div class="back-item">
+        <div class="back-dot"></div>
+        <div class="back-text"><strong>Confirm Your Grip</strong>Light pressure. No tension in forearms or shoulders.</div>
+      </div>
+      <div class="back-item">
+        <div class="back-dot"></div>
+        <div class="back-text"><strong>Set Your Intention</strong>"I am a confident putter and I trust my read."</div>
+      </div>
+    </div>
+
+    <!-- COL 2: On the Green -->
+    <div class="back-col">
+      <div class="back-col-title">On Every Green</div>
+      <div class="back-item">
+        <div class="back-dot"></div>
+        <div class="back-text"><strong>Walk to Green, Read Slope</strong>Overall slope reading starts from 20 yards out.</div>
+      </div>
+      <div class="back-item">
+        <div class="back-dot"></div>
+        <div class="back-text"><strong>Low-Side Read</strong>Always crouch from the low side to see true break.</div>
+      </div>
+      <div class="back-item">
+        <div class="back-dot"></div>
+        <div class="back-text"><strong>Pick Your Apex</strong>Aim at the high point, not the hole.</div>
+      </div>
+      <div class="back-item">
+        <div class="back-dot"></div>
+        <div class="back-text"><strong>Full Routine. Every Time.</strong>Never step in without completing your routine.</div>
+      </div>
+      <div class="back-item">
+        <div class="back-dot"></div>
+        <div class="back-text"><strong>Head Still After Impact</strong>Listen for the ball to drop — don't watch.</div>
+      </div>
+      <div class="back-item">
+        <div class="back-dot"></div>
+        <div class="back-text"><strong>Reset Immediately</strong>Miss? One breath, walk to next hole with a clean slate.</div>
+      </div>
+    </div>
+
+    <!-- COL 3: Emergency Fixes -->
+    <div class="back-col">
+      <div class="back-col-title">If It Falls Apart</div>
+      <div class="back-item">
+        <div class="back-dot"></div>
+        <div class="back-text"><strong>Missing Left Consistently</strong>Check face alignment — it's likely open. Slow down setup.</div>
+      </div>
+      <div class="back-item">
+        <div class="back-dot"></div>
+        <div class="back-text"><strong>Leaving Putts Short</strong>Your follow-through is decelerating. Accelerate through impact.</div>
+      </div>
+      <div class="back-item">
+        <div class="back-dot"></div>
+        <div class="back-text"><strong>3-Putting</strong>Speed problem, not direction. Return to Ladder Drill.</div>
+      </div>
+      <div class="back-item">
+        <div class="back-dot"></div>
+        <div class="back-text"><strong>Nervous on Short Putts</strong>Slow your routine down by 50%. Breathe before triggering.</div>
+      </div>
+      <div class="back-item">
+        <div class="back-dot"></div>
+        <div class="back-text"><strong>Rushing</strong>Stop. Go back to step 1 of your routine. Start over.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mantra-box">
+    <div class="mantra-label">My Mantra</div>
+    <div class="mantra-divider"></div>
+    <div class="mantra-text">"See it. Trust it. Roll it."</div>
+    <div class="mantra-divider"></div>
+    <div class="mantra-label">golfgenii.com</div>
+  </div>
+</div>
+
+</body>
+</html>
