@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Putting Confidence - Mike Schy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #0a1628;
+    --dark: #111b2e;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --green: #2d6a4f;
+    --green-light: #3a8c68;
+    --white: #ffffff;
+    --off-white: #f5f0e8;
+    --gray: #8a9ab5;
+    --light-gray: #e8edf5;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--off-white);
+    color: var(--dark);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* PAGE BREAKS */
+  .page {
+    width: 8.5in;
+    min-height: 11in;
+    margin: 0 auto 40px;
+    background: var(--white);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.15);
+  }
+
+  @media print {
+    body { background: white; }
+    .page { margin: 0; box-shadow: none; page-break-after: always; }
+  }
+
+  /* ===================== COVER PAGE ===================== */
+  .cover {
+    background: var(--navy);
+    min-height: 11in;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .cover-pattern {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(201,168,76,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(45,106,79,0.12) 0%, transparent 50%);
+  }
+
+  .cover-top-bar {
+    background: var(--gold);
+    height: 6px;
+    width: 100%;
+  }
+
+  .cover-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .cover-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 60px;
+  }
+
+  .cover-eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    font-weight: 900;
+    color: var(--white);
+    text-align: center;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+
+  .cover-title span {
+    color: var(--gold);
+  }
+
+  .cover-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--gray);
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .cover-divider {
+    width: 80px;
+    height: 2px;
+    background: var(--gold);
+    margin: 0 auto 50px;
+  }
+
+  .cover-tagline {
+    font-size: 16px;
+    color: var(--light-gray);
+    text-align: center;
+    max-width: 440px;
+    line-height: 1.8;
+    margin-bottom: 70px;
+    font-weight: 300;
+  }
+
+  .cover-segments-preview {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 80px;
+  }
+
+  .segment-dot {
+    text-align: center;
+    font-size: 10px;
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  .segment-dot-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 6px;
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: var(--gold-light);
+  }
+
+  .cover-author {
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 40px;
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .cover-author-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--white);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .cover-author-creds {
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    line-height: 2;
+  }
+
+  .cover-bottom-bar {
+    background: linear-gradient(90deg, var(--green), var(--gold));
+    height: 4px;
+    width: 100%;
+  }
+
+  /* ===================== INNER PAGES ===================== */
+  .inner-page {
+    padding: 0;
+  }
+
+  .page-header {
+    background: var(--navy);
+    padding: 28px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .page-header-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .page-header-title {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  .page-content {
+    padding: 50px 60px;
+  }
+
+  /* ===================== TOC PAGE ===================== */
+  .toc-page {
+    background: var(--navy);
+    min-height: 11in;
+    padding: 80px 80px;
+    position: relative;
+  }
+
+  .toc-eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .toc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    color: var(--white);
+    font-weight: 900;
+    margin-bottom: 50px;
+    line-height: 1.2;
+  }
+
+  .toc-item {
+    display: flex;
+    align-items: center;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    gap: 24px;
+  }
+
+  .toc-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    color: rgba(201,168,76,0.3);
+    font-weight: 900;
+    min-width: 50px;
+    line-height: 1;
+  }
+
+  .toc-item-content { flex: 1; }
+
+  .toc-item-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .toc-item-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--white);
+    font-weight: 700;
+  }
+
+  .toc-item-desc {
+    font-size: 12px;
+    color: var(--gray);
+    margin-top: 3px;
+  }
+
+  .toc-dots {
+    flex: 1;
+    border-bottom: 1px dotted rgba(255,255,255,0.1);
+    height: 1px;
+    margin: 0 16px;
+  }
+
+  /* ===================== INTRO PAGE ===================== */
+  .intro-pull-quote {
+    background: var(--navy);
+    border-left: 4px solid var(--gold);
+    padding: 30px 36px;
+    margin: 30px 0;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .intro-pull-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.6;
+  }
+
+  .intro-pull-quote cite {
+    display: block;
+    margin-top: 12px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-style: normal;
+  }
+
+  /* ===================== SEGMENT PAGES ===================== */
+  .segment-header {
+    background: var(--navy);
+    padding: 50px 60px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .segment-header::after {
+    content: '';
+    position: absolute;
+    right: -30px;
+    top: -30px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 60px solid rgba(201,168,76,0.05);
+  }
+
+  .segment-number-large {
+    font-family: 'Playfair Display', serif;
+    font-size: 120px;
+    font-weight: 900;
+    color: rgba(201,168,76,0.12);
+    position: absolute;
+    right: 50px;
+    top: 10px;
+    line-height: 1;
+  }
+
+  .segment-eyebrow {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .segment-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .segment-subtitle {
+    font-size: 14px;
+    color: var(--gray);
+    font-style: italic;
+  }
+
+  .segment-gold-bar {
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin-top: 24px;
+  }
+
+  /* KEY INSIGHT BOX */
+  .key-insight {
+    background: linear-gradient(135deg, var(--navy) 0%, #0f2040 100%);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin: 24px 0;
+  }
+
+  .key-insight-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .key-insight p {
+    font-size: 14px;
+    color: var(--light-gray);
+    line-height: 1.7;
+  }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    margin: 20px 0;
+  }
+
+  .checklist li {
+    padding: 10px 0 10px 32px;
+    border-bottom: 1px solid var(--light-gray);
+    font-size: 14px;
+    color: var(--dark);
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .checklist li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+  }
+
+  /* NUMBERED STEPS */
+  .steps-list {
+    list-style: none;
+    margin: 20px 0;
+    counter-reset: steps;
+  }
+
+  .steps-list li {
+    counter-increment: steps;
+    padding: 14px 0 14px 52px;
+    border-bottom: 1px solid var(--light-gray);
+    font-size: 14px;
+    color: var(--dark);
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .steps-list li::before {
+    content: counter(steps);
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 30px;
+    height: 30px;
+    background: var(--navy);
+    color: var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: 'Playfair Display', serif;
+    line-height: 30px;
+    text-align: center;
+  }
+
+  /* DRILL CARD */
+  .drill-card {
+    background: var(--off-white);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin: 16px 0;
+    border-left: 4px solid var(--green);
+  }
+
+  .drill-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--green);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .drill-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: var(--dark);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .drill-desc {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+  }
+
+  /* TIMING BADGE */
+  .timing-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  /* SECTION HEADING */
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: var(--navy);
+    font-weight: 700;
+    margin: 28px 0 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--light-gray);
+  }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    color: var(--navy);
+    font-weight: 700;
+    margin: 22px 0 10px;
+  }
+
+  p {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.8;
+    margin-bottom: 14px;
+  }
+
+  /* TIMELINE REVIEW */
+  .timeline {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .timeline-item {
+    background: var(--off-white);
+    border-radius: 8px;
+    padding: 14px 16px;
+    border-top: 3px solid var(--gold);
+  }
+
+  .timeline-seg {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .timeline-name {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--navy);
+    margin-bottom: 3px;
+  }
+
+  .timeline-time {
+    font-size: 12px;
+    color: var(--gray);
+  }
+
+  /* AUTHOR BIO */
+  .author-bio {
+    background: var(--navy);
+    padding: 50px 60px;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+  }
+
+  .author-photo-placeholder {
+    min-width: 130px;
+    height: 130px;
+    background: linear-gradient(135deg, var(--green), var(--green-light));
+    border-radius: 50%;
+    border: 3px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    color: var(--white);
+    font-weight: 900;
+  }
+
+  .author-bio-text h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .author-creds-list {
+    list-style: none;
+    margin: 12px 0 16px;
+  }
+
+  .author-creds-list li {
+    font-size: 12px;
+    color: var(--gold);
+    letter-spacing: 1px;
+    padding: 3px 0;
+  }
+
+  .author-creds-list li::before {
+    content: '- ';
+  }
+
+  .author-bio-text p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+
+  /* BACK COVER */
+  .back-cover {
+    background: var(--navy);
+    min-height: 11in;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px;
+    text-align: center;
+    position: relative;
+  }
+
+  .back-cover-tagline {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: var(--white);
+    font-weight: 900;
+    line-height: 1.3;
+    margin-bottom: 24px;
+  }
+
+  .back-cover-tagline span { color: var(--gold); }
+
+  .back-cover-url {
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-top: 40px;
+  }
+
+  .back-isbn-area {
+    position: absolute;
+    bottom: 60px;
+    right: 60px;
+    text-align: right;
+  }
+
+  .back-isbn-area p { font-size: 11px; color: var(--gray); }
+</style>
+</head>
+<body>
+
+<!-- ==================== COVER ==================== -->
+<div class="page cover">
+  <div class="cover-top-bar"></div>
+  <div class="cover-pattern"></div>
+  <div class="cover-content">
+    <div class="cover-logo">GolfGenii</div>
+    <div class="cover-eyebrow">A Complete Guide to</div>
+    <div class="cover-title">Putting<br><span>Confidence</span></div>
+    <div class="cover-subtitle">The Ten Universal Putting Segments</div>
+    <div class="cover-divider"></div>
+    <p class="cover-tagline">Master the process every great putter uses — whether you know it or not. Understand, practice, and own each segment until they become second nature.</p>
+
+    <div class="cover-segments-preview">
+      <div class="segment-dot"><div class="segment-dot-circle">1</div>Observe</div>
+      <div class="segment-dot"><div class="segment-dot-circle">2</div>Read</div>
+      <div class="segment-dot"><div class="segment-dot-circle">3</div>Aim Point</div>
+      <div class="segment-dot"><div class="segment-dot-circle">4</div>Ball Aim</div>
+      <div class="segment-dot"><div class="segment-dot-circle">5</div>Routine</div>
+      <div class="segment-dot"><div class="segment-dot-circle">6</div>Speed</div>
+      <div class="segment-dot"><div class="segment-dot-circle">7</div>Putter Aim</div>
+      <div class="segment-dot"><div class="segment-dot-circle">8</div>Stroke</div>
+      <div class="segment-dot"><div class="segment-dot-circle">9</div>Evaluate</div>
+      <div class="segment-dot"><div class="segment-dot-circle">10</div>Assess</div>
+    </div>
+
+    <div class="cover-author">
+      <div class="cover-author-name">Mike Schy</div>
+      <div class="cover-author-creds">PGA Professional &bull; Master Green Reader<br>Master Putter Fitter &bull; 40 Years Instructor &amp; Coach</div>
+    </div>
+  </div>
+  <div class="cover-bottom-bar"></div>
+</div>
+
+<!-- ==================== TABLE OF CONTENTS ==================== -->
+<div class="page toc-page">
+  <div class="toc-eyebrow">Inside This Book</div>
+  <div class="toc-title">Table of<br>Contents</div>
+
+  <div class="toc-item">
+    <div class="toc-number">01</div>
+    <div class="toc-item-content">
+      <div class="toc-item-label">Segment 1</div>
+      <div class="toc-item-name">Observation</div>
+      <div class="toc-item-desc">The green read — the macro view</div>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-number">02</div>
+    <div class="toc-item-content">
+      <div class="toc-item-label">Segment 2</div>
+      <div class="toc-item-name">The Putt Read</div>
+      <div class="toc-item-desc">The micro view — the Vector method</div>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-number">03</div>
+    <div class="toc-item-content">
+      <div class="toc-item-label">Segment 3</div>
+      <div class="toc-item-name">Determining the Aim Point</div>
+      <div class="toc-item-desc">Commit to your read — no second-guessing</div>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-number">04</div>
+    <div class="toc-item-content">
+      <div class="toc-item-label">Segment 4</div>
+      <div class="toc-item-name">Aiming the Ball</div>
+      <div class="toc-item-desc">Only 17% of golfers do this correctly</div>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-number">05</div>
+    <div class="toc-item-content">
+      <div class="toc-item-label">Segment 5</div>
+      <div class="toc-item-name">Starting the Putt Routine</div>
+      <div class="toc-item-desc">Commitment, breathing, and rhythm</div>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-number">06</div>
+    <div class="toc-item-content">
+      <div class="toc-item-label">Segment 6</div>
+      <div class="toc-item-name">Determining Speed</div>
+      <div class="toc-item-desc">4 proven drills to own distance control</div>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-number">07</div>
+    <div class="toc-item-content">
+      <div class="toc-item-label">Segment 7</div>
+      <div class="toc-item-name">Aiming the Putter</div>
+      <div class="toc-item-desc">The A effect, E effect, and how to beat them</div>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-number">08</div>
+    <div class="toc-item-content">
+      <div class="toc-item-label">Segment 8</div>
+      <div class="toc-item-name">Making the Stroke</div>
+      <div class="toc-item-desc">Mechanics, arc types, and the perfect fit</div>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-number">09</div>
+    <div class="toc-item-content">
+      <div class="toc-item-label">Segment 9</div>
+      <div class="toc-item-name">Post-Putt Evaluation</div>
+      <div class="toc-item-desc">Simple, fast, and always constructive</div>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-number">10</div>
+    <div class="toc-item-content">
+      <div class="toc-item-label">Segment 10</div>
+      <div class="toc-item-name">Self-Assessment</div>
+      <div class="toc-item-desc">Think like a great putter — because you are one</div>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-number">+</div>
+    <div class="toc-item-content">
+      <div class="toc-item-label">Bonus</div>
+      <div class="toc-item-name">Practice Plans &amp; Round Prep</div>
+      <div class="toc-item-desc">Drills, timing guide, and training aids</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== INTRO PAGE ==================== -->
+<div class="page inner-page">
+  <div class="page-header">
+    <div class="page-header-logo">GolfGenii &bull; Putting Confidence</div>
+    <div class="page-header-title">Introduction</div>
+  </div>
+  <div class="page-content">
+    <h2>Why Most Golfers Never Improve Their Putting</h2>
+    <p>Most golfers wonder why they struggle with putting. The stroke itself is deceptively simple — a one-lever motion that any physically capable person can execute. There are thousands of putters, thousands of techniques, endless YouTube tips. And yet putting remains the single greatest source of frustration on the golf course.</p>
+    <p>The reason isn't physical. It's structural. The real culprit is the invisible <em>process</em> every golfer goes through on every single putt — whether they realize it or not. Most golfers have never named that process. They've never broken it into steps. They have no idea which step breaks down when the putts stop falling.</p>
+
+    <div class="intro-pull-quote">
+      <p>"Defining the process we go through — whether we are aware of it or not — is the most important aspect of putting, yet we never talk about it or evaluate it."</p>
+      <cite>- Mike Schy, PGA Professional</cite>
+    </div>
+
+    <p>That process is the Ten Universal Putting Segments. Every golfer — from the weekend hacker to the Tour professional — goes through these ten steps on every putt. The difference between great putters and everyone else is simple: great putters have developed each segment until it is completely second nature. They move unconsciously from one segment to the next, with total freedom and total confidence.</p>
+    <p>This book will give you that same system. You will understand what each segment is, why it matters, how to practice it in isolation, and how to detect exactly where your process breaks down during a round. No more vague frustration. No more "I just couldn't putt today." You will know precisely what happened and precisely how to fix it.</p>
+
+    <div class="key-insight">
+      <div class="key-insight-label">The Promise</div>
+      <p>After studying and practicing the Ten Segments, you will be able to approach any putt — anywhere, at any time — with complete confidence. Not because you will make every putt, but because you will own the process that gives you the best possible chance on every single one.</p>
+    </div>
+
+    <h3>How to Use This Book</h3>
+    <p>Read through each segment once, end to end, to understand the complete picture. Then return to each segment and practice it in isolation on the practice green before integrating it into your full routine. The goal is not to make putting more complicated — it's to make your current unconscious process <em>deliberate</em>, so you can develop and trust it completely.</p>
+    <p>A companion Workbook and Quick Reference Card are available at <strong>GolfGenii.com</strong> to help you track your progress and carry the system on the course.</p>
+  </div>
+</div>
+
+<!-- ==================== SEGMENT 1 ==================== -->
+<div class="page inner-page">
+  <div class="segment-header">
+    <div class="segment-number-large">1</div>
+    <div class="segment-eyebrow">Segment One</div>
+    <div class="segment-title">Observation</div>
+    <div class="segment-subtitle">The Green Read — The Macro View</div>
+    <div class="segment-gold-bar"></div>
+  </div>
+  <div class="page-content">
+    <div class="timing-badge">15 - 20 Seconds</div>
+    <p>Before you ever reach your ball, the green is already communicating with you. In Segment 1, you are gathering the big picture — the overall slope, the high and low points, the drainage routes, the texture, the speed. Most golfers walk directly to their ball and mark it, completely skipping this segment. This is one of the most costly mistakes in putting.</p>
+
+    <div class="key-insight">
+      <div class="key-insight-label">Why It Matters</div>
+      <p>Your brain is continuously receiving both visual and kinesthetic information as you walk onto a green. The slopes you feel with your feet, the firmness of the surface, the shade patterns — all of this feeds your subconscious processing. When you pay conscious attention to this data, you dramatically accelerate and improve your putt read in Segment 2.</p>
+    </div>
+
+    <h3>Your Observation Checklist</h3>
+    <ul class="checklist">
+      <li>Note the overall slope of the green — where are the high and low points?</li>
+      <li>Observe where water would naturally drain off the green</li>
+      <li>Locate the drains and exits relative to the hole position</li>
+      <li>Notice whether the green is in shade or direct sunlight</li>
+      <li>Sense the firmness of the surface with your feet as you walk on</li>
+      <li>Assess whether the green has been mowed or rolled today</li>
+      <li>Check if the flag is positioned near an exit or slope change</li>
+      <li>Enter the green from the front when possible — your angle of entry changes your perception</li>
+    </ul>
+
+    <div class="key-insight">
+      <div class="key-insight-label">Key Insight</div>
+      <p>Many optical illusions exist on golf greens that will mislead you unless you understand the full picture first. Greens that look flat from one angle can have significant slope from another. Building the macro view first protects you from these illusions in the micro read.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SEGMENT 2 ==================== -->
+<div class="page inner-page">
+  <div class="segment-header">
+    <div class="segment-number-large">2</div>
+    <div class="segment-eyebrow">Segment Two</div>
+    <div class="segment-title">The Putt Read</div>
+    <div class="segment-subtitle">The Micro View — The Vector Method</div>
+    <div class="segment-gold-bar"></div>
+  </div>
+  <div class="page-content">
+    <div class="timing-badge">10 - 15 Seconds</div>
+    <p>A putt read is fundamentally different from the green read in Segment 1. Where Segment 1 was about the whole canvas, Segment 2 is about the specific putt in front of you — its exact break, the slope at the hole, and the precise aim point you will commit to.</p>
+    <p>Mike Schy uses the Vector Green Reading system developed by Col. H.A. Templeton. It provides a clear, precise, step-by-step process for reading any putt — single or multi-breaking — with repeatable confidence.</p>
+
+    <h3>The Vector Green Reading — 7 Step Process</h3>
+    <ol class="steps-list">
+      <li>Find the straight putt above the hole. (The Gravity Vector "arrow" lies on this line — its point is over the center of the cup, its other end is the aim point.)</li>
+      <li>Estimate the slope at the hole, or use a contour map if available.</li>
+      <li>Pace off the length of your putt.</li>
+      <li>Go to the pages in your Vector Green Book that match today's green speed.</li>
+      <li>Find the column headed by your putt's length.</li>
+      <li>The big black number in that box is your aim point distance above the hole.</li>
+      <li>Plot that aim point above the hole. This is the target you will aim your ball at.</li>
+    </ol>
+
+    <div class="key-insight">
+      <div class="key-insight-label">Practice Note</div>
+      <p>Practicing your putt read is just as important as practicing your actual stroke — yet most golfers never do it. The better you become as a putt reader, the more naturally and confidently you will move through all the remaining segments. Learning to read putts is a skill that compounds over time.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SEGMENTS 3 & 4 ==================== -->
+<div class="page inner-page">
+  <div class="segment-header">
+    <div class="segment-number-large">3</div>
+    <div class="segment-eyebrow">Segment Three</div>
+    <div class="segment-title">Determining the Aim Point</div>
+    <div class="segment-subtitle">Commit to Your Read — No Second-Guessing</div>
+    <div class="segment-gold-bar"></div>
+  </div>
+  <div class="page-content">
+    <div class="timing-badge">5 Seconds</div>
+    <p>Contrary to popular belief, determining your aim point is not the same as reading the putt. In this segment, the reading is done. You are not re-evaluating your read — you are locking in your aim point and committing to it. This segment exists specifically because doubt tends to creep in between the read and the execution.</p>
+    <p>If you feel uncertain, the correct response is to return to Segment 2 and re-read. But if you are confident in your number, move forward immediately. The whole process moves quickly — stepping back momentarily is never a problem. Hesitating without moving back is where golfers lose putts.</p>
+
+    <div class="key-insight">
+      <div class="key-insight-label">The Rule</div>
+      <p>No second-guessing in Segment 3. You are either confident in your aim point and moving to Segment 4, or you are stepping back to Segment 2 for a cleaner read. There is no third option.</p>
+    </div>
+
+    <h2 style="margin-top: 40px;">Segment 4: Aiming the Ball</h2>
+    <div class="timing-badge">5 - 10 Seconds</div>
+    <p>Once you have committed to your aim point, the next task is aiming your golf ball precisely at it. Research shows that only 17% of golfers consistently aim their ball correctly from 15 feet — and that number drops sharply at greater distances.</p>
+
+    <h3>The Process</h3>
+    <ol class="steps-list">
+      <li>Place your ball marker on the green behind the ball.</li>
+      <li>Aim the marker directly at your aim point.</li>
+      <li>Place the ball and align your line(s) so they point at the aim point.</li>
+      <li>Verify both lines are aimed correctly, then remove the marker.</li>
+    </ol>
+
+    <div class="key-insight">
+      <div class="key-insight-label">Critical Point</div>
+      <p>Once you have aimed your ball, there is no room for doubt. The ball is aimed. The line doesn't lie. Trust it completely as you move through the remaining segments.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SEGMENTS 5, 6 ==================== -->
+<div class="page inner-page">
+  <div class="segment-header">
+    <div class="segment-number-large">5</div>
+    <div class="segment-eyebrow">Segment Five</div>
+    <div class="segment-title">Starting the Putt Routine</div>
+    <div class="segment-subtitle">Commitment, Breathing, and Rhythm</div>
+    <div class="segment-gold-bar"></div>
+  </div>
+  <div class="page-content">
+    <div class="timing-badge">3 - 5 Seconds</div>
+    <p>People often mistake the entire Ten Segment process for a putting routine. This segment, specifically, is the moment where you mentally and physically commit to executing the putt. It is a brief but essential transition — from preparation to action.</p>
+    <p>The elements of Segment 5: breathe correctly (a slow exhale releases tension), become aware of your natural rhythm, and consciously trust everything you've done in Segments 1 through 4. Only when you feel genuinely committed should you move to Segment 6.</p>
+
+    <div class="key-insight">
+      <div class="key-insight-label">What Commitment Feels Like</div>
+      <p>Commitment is not the absence of thought — it's the absence of doubt. A committed golfer isn't forcing confidence; they have earned it by completing each prior segment correctly. If commitment feels forced, something earlier in the process was incomplete.</p>
+    </div>
+
+    <h2 style="margin-top: 40px;">Segment 6: Determining Speed</h2>
+    <div class="timing-badge">10 - 15 Seconds</div>
+    <p>Speed is the velocity of the putter at impact that delivers the ball to the hole at the correct terminal velocity — no more than one foot past the hole if you miss. Most golfers struggle with speed because they failed to fully commit to the aim point in Segment 3, which causes their attention to drift during speed determination.</p>
+
+    <h3>4 Proven Speed Drills</h3>
+    <div class="drill-card">
+      <div class="drill-label">Drill 1</div>
+      <div class="drill-title">The Release Drill</div>
+      <div class="drill-desc">Take the putter back too far, hold. Then bring it to the spot you believe is perfect for the correct speed and let it fall. Stroke with zero tension. Evaluate and repeat — you'll quickly find where grip pressure and tension live.</div>
+    </div>
+    <div class="drill-card">
+      <div class="drill-label">Drill 2</div>
+      <div class="drill-title">The Yardstick Drill</div>
+      <div class="drill-desc">Tape a metal yardstick with colored tape every two inches. Take the putter back 4 inches and swing through 4 inches. Note how far the ball travels. Repeat at each 2-inch interval up the yardstick. Contact with the ball should feel heavy, not sharp.</div>
+    </div>
+    <div class="drill-card">
+      <div class="drill-label">Drill 3</div>
+      <div class="drill-title">Metronome Drill</div>
+      <div class="drill-desc">Repeat Drill 2 with a metronome. Start at 76 bpm and vary the tempo. Observe how tempo changes affect distance. Find your natural, comfortable beat.</div>
+    </div>
+    <div class="drill-card">
+      <div class="drill-label">Drill 4</div>
+      <div class="drill-title">Large Target Drill</div>
+      <div class="drill-desc">Putt to a large object (not a hole), focusing only on speed from various distances and slopes. Step 1: Look at target. Step 2: Estimate stroke length and practice. Step 3: Step in, do not look at target again. Make stroke. Step 4: Evaluate distance control.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SEGMENTS 7, 8 ==================== -->
+<div class="page inner-page">
+  <div class="segment-header">
+    <div class="segment-number-large">7</div>
+    <div class="segment-eyebrow">Segment Seven</div>
+    <div class="segment-title">Aiming the Putter</div>
+    <div class="segment-subtitle">The A Effect, E Effect, and How to Beat Them</div>
+    <div class="segment-gold-bar"></div>
+  </div>
+  <div class="page-content">
+    <div class="timing-badge">3 - 8 Seconds</div>
+    <p>Your goal is to step into the putt with confidence and repeatable rhythm and align the line on your putter with the line on your ball. Simple in concept — but this is where over 90% of golfers introduce doubt without realizing why.</p>
+    <p>When you read the putt and determined speed from behind the ball, your eyes were horizontal — level with the ground. When you stand over the putt, your head tilts and your eyes are no longer on the same plane relative to the target. This perceptual shift is what Col. Templeton called the "A effect" and "E effect."</p>
+
+    <div class="key-insight">
+      <div class="key-insight-label">The A / E Effect</div>
+      <p>Looking at an object horizontally and then looking at it vertically changes your perception. The putt that looked like it broke 6 inches from behind the ball now looks different from over it. Most golfers react to this by second-guessing their read and adjusting — which destroys the work done in Segments 1-6. The solution: <strong>do not look at the hole from over the ball.</strong> Trust the line. Aim the putter at the ball line. Pull the trigger.</p>
+    </div>
+
+    <h3>The Aiming Sequence</h3>
+    <ol class="steps-list">
+      <li>Get behind the ball looking directly down your line to your aim point.</li>
+      <li>Take several practice strokes that you believe deliver the ball at the proper speed.</li>
+      <li>Choose method A (look at target while making practice strokes) or method B (look at target, then look down at putter head and make stroke).</li>
+      <li>Step into the putt precisely and rhythmically. Do not look at the hole.</li>
+      <li>Align the line on your putter with the line on your ball. That's it.</li>
+    </ol>
+
+    <h2 style="margin-top: 30px;">Segment 8: Making the Stroke</h2>
+    <div class="timing-badge">2 - 3 Seconds</div>
+    <p>Only make the stroke when you are completely confident that you have completed all prior segments. There should be no clutter in your mind. The putter is lined up. You are in your stance. Make the stroke.</p>
+    <p>The correct stroke arc for you is determined by two factors: your forward bend (shoulder plane to ground) and your hand position relative to vertical. There are six arc types — square to square through 65 degrees — and none is universally superior. The right stroke is the one that is repeatable for you at every angle and distance, requiring no manipulation. Regardless of arc type, the putter face must always be square to its path.</p>
+
+    <div class="key-insight">
+      <div class="key-insight-label">Putter Fitting Note</div>
+      <p>An incorrectly fitted putter can appear to be lined up when the face is actually pointing left or right of the target due to improper lie angle. A correct putter fit — matching toe hang to your arc, proper lie angle, correct length, and an aiming line you can align — removes a significant variable from your stroke.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SEGMENTS 9, 10 ==================== -->
+<div class="page inner-page">
+  <div class="segment-header">
+    <div class="segment-number-large">9</div>
+    <div class="segment-eyebrow">Segments Nine &amp; Ten</div>
+    <div class="segment-title">Evaluate &amp; Assess</div>
+    <div class="segment-subtitle">Post-Putt Evaluation and Self-Assessment</div>
+    <div class="segment-gold-bar"></div>
+  </div>
+  <div class="page-content">
+    <h3>Segment 9: Post-Putt Evaluation</h3>
+    <p>Your post-putt evaluation should be simple, fast, and emotionally neutral. Ask three quick questions:</p>
+    <ul class="checklist">
+      <li>How was the stroke? Did I repeat my practice stroke, or did I panic and change it?</li>
+      <li>How accurate was my speed — where did the ball finish relative to the hole?</li>
+      <li>How accurate was the read — was I on the right break and right page in my Vector Green Book?</li>
+    </ul>
+    <p>During a round, evaluate only distance and line from Segment 9. Save stroke mechanics analysis for after the round, unless there is a complete breakdown that requires immediate attention. Small adjustments to your read or aim point for subsequent putts are the primary output of this segment.</p>
+
+    <div class="key-insight">
+      <div class="key-insight-label">When to Dig Deeper</div>
+      <p>Pushes, pulls, hits, and deceleration should be analyzed after the round — not while competing. The one exception: if your stroke completely falls apart, a brief mechanics check is warranted. Otherwise, trust your preparation.</p>
+    </div>
+
+    <h3 style="margin-top: 30px;">Segment 10: Self-Assessment</h3>
+    <p>Every golfer performs a self-assessment after a putt. The problem is that for most golfers, it's negative and confusing — because they have no framework for understanding what went wrong. When you don't know which segment failed, your self-assessment defaults to "I'm a bad putter." That belief compounds every round.</p>
+    <p>With the Ten Segments, your self-assessment becomes precise and constructive. Ask yourself: "Did I complete each segment? Where did I get stuck?" If you can identify the specific segment that broke down, you can fix it. That's the entire point.</p>
+
+    <div class="intro-pull-quote">
+      <p>"Becoming a great putter starts by saying 'I'm a great putter' and believing it. Great putters never allow negative thoughts to dominate their self-assessments."</p>
+      <cite>- Mike Schy</cite>
+    </div>
+
+    <p>Great putters on Tour hit 13-15 greens per round and may make only 5-9 first putts. They finish 28-30 putts. They don't make miracles — they manage themselves, read greens accurately, and give themselves the easiest possible putts to make. That is entirely learnable. And it starts with what you say to yourself after every putt.</p>
+    <p><strong>Say this:</strong> "I am a great putter." Then identify what to improve. Move on.</p>
+  </div>
+</div>
+
+<!-- ==================== PRACTICE & REVIEW PAGE ==================== -->
+<div class="page inner-page">
+  <div class="page-header">
+    <div class="page-header-logo">GolfGenii &bull; Putting Confidence</div>
+    <div class="page-header-title">Practice Plan &amp; Timing Guide</div>
+  </div>
+  <div class="page-content">
+    <h2>The Complete Putt — Timing Review</h2>
+    <p>Here is the full Ten Segment timeline for a 12-foot putt. Done correctly, this process should <em>speed up</em> your play, not slow it down. The total time is roughly 55-80 seconds.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-seg">Segment 1</div>
+        <div class="timeline-name">Observation</div>
+        <div class="timeline-time">15-20 seconds &bull; Walking to green</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-seg">Segment 2</div>
+        <div class="timeline-name">Putt Read</div>
+        <div class="timeline-time">10-15 seconds &bull; Vector method</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-seg">Segment 3</div>
+        <div class="timeline-name">Aim Point</div>
+        <div class="timeline-time">5 seconds &bull; Commit, no doubt</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-seg">Segment 4</div>
+        <div class="timeline-name">Ball Aim</div>
+        <div class="timeline-time">5-10 seconds &bull; Mark and align</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-seg">Segment 5</div>
+        <div class="timeline-name">Routine Start</div>
+        <div class="timeline-time">3-5 seconds &bull; Breathe, commit</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-seg">Segment 6</div>
+        <div class="timeline-name">Speed</div>
+        <div class="timeline-time">10-15 seconds &bull; Practice strokes</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-seg">Segment 7</div>
+        <div class="timeline-name">Putter Aim</div>
+        <div class="timeline-time">3-8 seconds &bull; Step in, align</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-seg">Segment 8</div>
+        <div class="timeline-name">The Stroke</div>
+        <div class="timeline-time">2-3 seconds &bull; Pull the trigger</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-seg">Segment 9</div>
+        <div class="timeline-name">Evaluation</div>
+        <div class="timeline-time">Quick &bull; Speed, line, stroke</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-seg">Segment 10</div>
+        <div class="timeline-name">Self-Assessment</div>
+        <div class="timeline-time">Immediate &bull; Positive, move on</div>
+      </div>
+    </div>
+
+    <h2>Practice Plan</h2>
+    <p>Always begin practice with a straight putt from 5 feet above the hole, then from 5 feet below the hole. Evaluate for any pushes or pulls. Gradually move to 15 feet, keeping the putt straight.</p>
+
+    <div class="drill-card">
+      <div class="drill-label">Drill: String Line</div>
+      <div class="drill-title">Uphill and Downhill Speed Control</div>
+      <div class="drill-desc">Putt to a string line. First uphill, then downhill. Start at 3 feet, gradually move as far as possible. Goal: finish 6-12 inches past the string every time.</div>
+    </div>
+    <div class="drill-card">
+      <div class="drill-label">Drill: One Read, One Putt</div>
+      <div class="drill-title">Full Segment Practice</div>
+      <div class="drill-desc">Practice the complete 10-segment process on every single practice putt. No shortcuts. What you practice is exactly what you will do under pressure.</div>
+    </div>
+    <div class="drill-card">
+      <div class="drill-label">Drill: 10-Ball Circle</div>
+      <div class="drill-title">Building Range and Confidence</div>
+      <div class="drill-desc">Place 10 balls around the hole. Start at 3 feet. Once you make 10 in a row, move to 5 feet, then 10 feet. Practice on 1%, 2%, 3%, and 4% slopes when possible.</div>
+    </div>
+
+    <h3>Recommended Training Aids</h3>
+    <ul class="checklist">
+      <li>Perfect Putting Machine (Z Factor) — perfectputtingmachine.com</li>
+      <li>Vector Green Book — vectorputting.com</li>
+      <li>AimPro Ball Marker — aimprogolf.com</li>
+      <li>Putting template and elevated string line</li>
+      <li>Gaskets for practice holes and aim points</li>
+    </ul>
+
+    <h3>Pre-Round Green Preparation</h3>
+    <ul class="checklist">
+      <li>Start with straight 5-foot putts above and below the hole</li>
+      <li>Evaluate any pushes or pulls in your stroke</li>
+      <li>Calibrate green speed and find the correct speed page in your Vector Green Book</li>
+      <li>Do at least one full one-read, one-putt exercise before your round</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== AUTHOR BIO ==================== -->
+<div class="page inner-page">
+  <div class="author-bio">
+    <div class="author-photo-placeholder">MS</div>
+    <div class="author-bio-text">
+      <h3>Mike Schy</h3>
+      <ul class="author-creds-list">
+        <li>PGA Professional</li>
+        <li>Master Green Reader</li>
+        <li>Master Putter Fitter</li>
+        <li>Instructor &amp; Coach — 40 Years</li>
+        <li>mikeschy.com</li>
+      </ul>
+      <p>Mike Schy has spent four decades on the lesson tee and on the greens, helping golfers at every level understand the real reason their putting breaks down. His work with the Vector Putting system and the Ten Universal Putting Segments has transformed the way hundreds of students approach the most important part of the game.</p>
+      <p style="margin-top: 10px;">As a certified Master Green Reader and Master Putter Fitter, Mike brings both the analytical science and the deep teaching experience necessary to make this system not just understandable — but permanently life-changing for any golfer who commits to it.</p>
+    </div>
+  </div>
+  <div class="page-content">
+    <h2>What Comes Next</h2>
+    <p>Reading this book is the first step. The next step is taking the Ten Segments to the practice green and owning each one before you integrate them into your full routine. Here's your recommended path:</p>
+    <ol class="steps-list">
+      <li><strong>Week 1:</strong> Focus on Segments 1 and 2. Practice observation and putt reading exclusively. Time yourself. Build the habit.</li>
+      <li><strong>Week 2:</strong> Add Segments 3 and 4. Practice committing to an aim point and aiming your ball correctly before every practice putt.</li>
+      <li><strong>Week 3:</strong> Add Segments 5, 6, and 7. Focus on rhythm, speed drills, and stepping in without looking at the hole.</li>
+      <li><strong>Week 4:</strong> Integrate all 10 segments. Practice the full process on every putt. Use Segments 9 and 10 after each ball.</li>
+      <li><strong>Ongoing:</strong> One read, one putt in practice. Every putt in a round. Always with self-assessment.</li>
+    </ol>
+
+    <div class="key-insight">
+      <div class="key-insight-label">The Standard</div>
+      <p>"Let today's garbage be better than yesterday's garbage." — Mike Schy. You don't need to be perfect. You need to be better, more conscious, and more committed with every round. The Ten Segments give you the framework to measure and improve that every single time you play.</p>
+    </div>
+
+    <p style="margin-top: 30px;">Download your companion <strong>Workbook</strong> and <strong>Quick Reference Card</strong> at <strong>GolfGenii.com</strong> to track your segment progress and carry the system on the course.</p>
+  </div>
+</div>
+
+<!-- ==================== BACK COVER ==================== -->
+<div class="page back-cover">
+  <div class="cover-pattern"></div>
+  <div class="cover-logo" style="position: absolute; top: 50px;">GolfGenii</div>
+  <div class="back-cover-tagline">Every great putter owns<br>a <span>process.</span><br>Now you do too.</div>
+  <div style="width:60px;height:2px;background:var(--gold);margin:30px auto;"></div>
+  <p style="color:var(--gray);font-size:14px;max-width:380px;line-height:1.8;">The Ten Universal Putting Segments — practice them, trust them, and you will approach every putt on every green with total confidence.</p>
+  <div class="back-cover-url">GolfGenii.com &bull; mikeschy.com</div>
+  <div class="cover-top-bar" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(90deg,var(--green),var(--gold));height:5px;"></div>
+  <div class="back-isbn-area">
+    <p>&copy; Mike Schy. All rights reserved.</p>
+    <p>GolfGenii.com</p>
+  </div>
+</div>
+
+</body>
+</html>
