@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Putting Confidence - Mike Schy | GolfGenii</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --navy: #0a1628;
+  --dark: #111b2e;
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --green: #2d6a4f;
+  --text: #e8e8e8;
+  --muted: #8a9ab5;
+}
+
+body {
+  background: var(--navy);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+nav {
+  background: rgba(10,22,40,0.97);
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: var(--gold);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+
+.logo span { color: #fff; }
+
+.back {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.back:hover { color: var(--gold); }
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 5rem 2rem 3rem;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.badge {
+  display: inline-block;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.3);
+  color: var(--gold);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1.15;
+  color: #fff;
+  margin-bottom: 1.25rem;
+}
+
+.hero h1 span { color: var(--gold); }
+
+.hero p {
+  font-size: 1.1rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.author-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 50px;
+  padding: 0.5rem 1.25rem 0.5rem 0.5rem;
+}
+
+.author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--green));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--navy);
+}
+
+.author-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.author-info strong {
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.author-info span {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* PRODUCTS */
+.products {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 5rem;
+}
+
+.section-label {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.section-label h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.section-label p {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* BUNDLE */
+.bundle-card {
+  background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(45,106,79,0.06));
+  border: 2px solid var(--gold);
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.bundle-badge {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  margin-bottom: 0.75rem;
+}
+
+.bundle-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 0.75rem;
+}
+
+.bundle-card p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.bundle-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.bundle-item {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text);
+  font-size: 0.8rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+}
+
+.bundle-cta {
+  text-align: center;
+  min-width: 180px;
+}
+
+.bundle-was {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-decoration: line-through;
+  margin-bottom: 0.25rem;
+}
+
+.bundle-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.bundle-save {
+  color: #5cb85c;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* PRODUCT GRID */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1.5rem;
+}
+
+.product-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.product-card:hover {
+  border-color: rgba(201,168,76,0.3);
+  transform: translateY(-2px);
+}
+
+.product-card.featured {
+  border-color: rgba(201,168,76,0.4);
+  background: rgba(201,168,76,0.04);
+}
+
+.featured-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 1rem;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.product-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.4rem;
+}
+
+.product-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: #fff;
+  margin-bottom: 0.75rem;
+}
+
+.product-card p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.includes {
+  list-style: none;
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.includes li {
+  padding: 0.3rem 0;
+  font-size: 0.85rem;
+  color: var(--text);
+  padding-left: 1.25rem;
+  position: relative;
+}
+
+.includes li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.price {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--gold);
+}
+
+.price-note {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* BUTTONS */
+.btn {
+  display: block;
+  width: 100%;
+  padding: 0.9rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: none;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light, #e8c97a));
+  color: var(--navy);
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, var(--gold-light, #e8c97a), var(--gold));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(201,168,76,0.35);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.4);
+}
+
+.btn-outline:hover {
+  background: rgba(201,168,76,0.08);
+  border-color: var(--gold);
+}
+
+/* TRUST */
+.trust {
+  background: rgba(255,255,255,0.02);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 3rem 2rem;
+}
+
+.trust-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  text-align: center;
+}
+
+.trust-item .icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.trust-item h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.4rem;
+}
+
+.trust-item p {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* BIO */
+.bio {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.bio-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--green));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--navy);
+  flex-shrink: 0;
+  border: 3px solid rgba(201,168,76,0.3);
+}
+
+.bio h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+
+.bio .title {
+  font-size: 0.8rem;
+  color: var(--gold);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+}
+
+.bio p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+footer a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+footer a:hover { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://quiet-realm-32sp.here.now/" class="logo">Golf<span>Genii</span></a>
+  <a href="https://quiet-realm-32sp.here.now/" class="back">&#8592; Back to Site</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge">Digital Download &mdash; Instant Access</div>
+  <h1>Master Your Putting.<br><span>Master Your Round.</span></h1>
+  <p>Mike Schy's proven system for building unshakeable confidence on the greens &mdash; used by players at every level to eliminate doubt and sink more putts.</p>
+  <div class="author-line">
+    <div class="author-avatar">M</div>
+    <div class="author-info">
+      <strong>Mike Schy</strong>
+      <span>Golf Performance Coach &bull; GolfGenii</span>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products">
+  <div class="section-label">
+    <h2>Choose Your Format</h2>
+    <p>All products delivered instantly to your inbox as PDF downloads</p>
+  </div>
+
+  <!-- BUNDLE -->
+  <div class="bundle-card">
+    <div>
+      <div class="bundle-badge">Best Value</div>
+      <h3>Complete Putting Confidence Bundle</h3>
+      <p>Everything you need to transform your putting &mdash; read it, work through it, and keep the cheat sheet in your bag.</p>
+      <div class="bundle-items">
+        <span class="bundle-item">&#128218; Ebook PDF</span>
+        <span class="bundle-item">&#128221; Workbook PDF</span>
+        <span class="bundle-item">&#9889; Quick Reference Card</span>
+      </div>
+    </div>
+    <div class="bundle-cta">
+      <div class="bundle-was">$51 separately</div>
+      <div class="bundle-price">$47</div>
+      <div class="bundle-save">Save $4 &mdash; Best Value</div>
+      <a href="https://buy.stripe.com/test_7sYfZg0WM8Lo0Mo3Zy2Nq02" class="btn btn-gold">Get the Bundle &mdash; $47</a>
+    </div>
+  </div>
+
+  <!-- INDIVIDUAL PRODUCTS -->
+  <div class="product-grid">
+
+    <div class="product-card featured">
+      <div class="featured-badge">Most Popular</div>
+      <div class="product-icon">&#128218;</div>
+      <div class="subtitle">Core Program</div>
+      <h3>Putting Confidence Ebook</h3>
+      <p>The complete system. Mike's 10-segment framework for reading greens, managing pressure, and building a repeatable putting routine that holds up under any conditions.</p>
+      <ul class="includes">
+        <li>Full 10-segment putting system</li>
+        <li>Green reading mastery techniques</li>
+        <li>Pre-putt routine blueprint</li>
+        <li>Mental game and pressure management</li>
+        <li>Distance control and speed training</li>
+        <li>Printable PDF &mdash; 27 pages</li>
+      </ul>
+      <div class="price-row">
+        <span class="price">$27</span>
+        <span class="price-note">one-time</span>
+      </div>
+      <a href="https://buy.stripe.com/test_3cI14m48Yd1E66I67G2Nq00" class="btn btn-gold">Buy Ebook &mdash; $27</a>
+    </div>
+
+    <div class="product-card">
+      <div class="product-icon">&#128221;</div>
+      <div class="subtitle">Practice Tool</div>
+      <h3>Practice Workbook</h3>
+      <p>Turn knowledge into muscle memory. One structured page per segment with fill-in exercises, self-assessments, drill instructions, and progress tracking.</p>
+      <ul class="includes">
+        <li>Fill-in exercises for each segment</li>
+        <li>Self-assessment checklists</li>
+        <li>Drill instructions and reps tracker</li>
+        <li>Session score log</li>
+        <li>Master progress tracker</li>
+        <li>Print once, use all season</li>
+      </ul>
+      <div class="price-row">
+        <span class="price">$17</span>
+        <span class="price-note">one-time</span>
+      </div>
+      <a href="https://buy.stripe.com/test_9B67sKgVK8Lo8eQ7bK2Nq01" class="btn btn-outline">Buy Workbook &mdash; $17</a>
+    </div>
+
+    <div class="product-card">
+      <div class="product-icon">&#9889;</div>
+      <div class="subtitle">On-Course Tool</div>
+      <h3>Quick Reference Card</h3>
+      <p>All 10 segments on one laminate-ready card. Pull it up on your phone or print it &mdash; your pre-round checklist, on-green keys, and emergency fixes, always handy.</p>
+      <ul class="includes">
+        <li>10-segment at-a-glance summary</li>
+        <li>Pre-round activation checklist</li>
+        <li>On-green execution keys</li>
+        <li>Emergency fixes for mid-round slumps</li>
+        <li>Phone-friendly &amp; print-ready</li>
+        <li>Laminate and put in your bag</li>
+      </ul>
+      <div class="price-row">
+        <span class="price">$7</span>
+        <span class="price-note">one-time</span>
+      </div>
+      <a href="#" class="btn btn-outline" style="opacity:0.5;cursor:not-allowed;">Coming Soon</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="trust">
+  <div class="trust-inner">
+    <div class="trust-item">
+      <div class="icon">&#9889;</div>
+      <h4>Instant Download</h4>
+      <p>PDF links sent to your email immediately after purchase. No waiting, no shipping.</p>
+    </div>
+    <div class="trust-item">
+      <div class="icon">&#128274;</div>
+      <h4>Secure Checkout</h4>
+      <p>Powered by Stripe. Your payment info is encrypted and never stored on our servers.</p>
+    </div>
+    <div class="trust-item">
+      <div class="icon">&#127942;</div>
+      <h4>30-Day Guarantee</h4>
+      <p>If you're not satisfied for any reason, email us within 30 days for a full refund.</p>
+    </div>
+    <div class="trust-item">
+      <div class="icon">&#128247;</div>
+      <h4>Works Everywhere</h4>
+      <p>Read on phone, tablet, or laptop. Print any page. Works with any PDF reader.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BIO -->
+<section class="bio">
+  <div class="bio-photo">M</div>
+  <div>
+    <h3>Mike Schy</h3>
+    <div class="title">Golf Performance Coach &bull; GolfGenii Founder</div>
+    <p>Mike has spent decades studying the mental and mechanical side of putting, distilling thousands of hours on the green into a repeatable, learnable system. His 10-segment framework breaks down every element of the putting game &mdash; from reading greens to managing pressure to building a bulletproof pre-putt routine. Whether you're a weekend player or a competitive golfer, this system gives you a clear path to sinking more putts and playing with genuine confidence.</p>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 GolfGenii &bull; <a href="mailto:support@golfgenii.com">support@golfgenii.com</a> &bull; <a href="#">Privacy Policy</a> &bull; <a href="#">Refund Policy</a></p>
+</footer>
+
+</body>
+</html>
